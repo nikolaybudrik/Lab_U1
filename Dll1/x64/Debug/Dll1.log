@@ -1,0 +1,64 @@
+﻿  pch.cpp
+D:\Dev\Lab_U1\Dll1\pch.cpp(24,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(30,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(32,39): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(42,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(48,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(50,39): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(60,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(66,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(68,39): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(77,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(83,36): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+D:\Dev\Lab_U1\Dll1\pch.cpp(85,39): warning C4244: =: преобразование "_Rep" в "float", возможна потеря данных
+          with
+          [
+              _Rep=double
+          ]
+  dllmain.cpp
+     Создается библиотека D:\Dev\Lab_U1\x64\Debug\Dll1.lib и объект D:\Dev\Lab_U1\x64\Debug\Dll1.exp
+  Dll1.vcxproj -> D:\Dev\Lab_U1\x64\Debug\Dll1.dll

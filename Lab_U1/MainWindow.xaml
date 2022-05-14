@@ -1,0 +1,119 @@
+﻿<Window x:Class="Lab_U1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_U1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="800">
+    <Window.Resources>
+        <local:GridConverter x:Key="GridConverter"/>
+        <local:LenghtConverter x:Key="LenghtConverter"/>
+        <local:FloatConverter x:Key="FloatConverter"/>
+        <local:DoubleConverter x:Key="DoubleConverter"/>
+        <local:MinCoefConverter x:Key="MinCoefConverter"/>
+        <local:MaxCoefConverter x:Key="MaxCoefConverter"/>
+        <local:VMTimeConverter x:Key="VMTimeConverter"/>
+        <local:VMAccuracyConverter x:Key="VMAccuracyConverter"/>
+        <local:ChangedConverter x:Key="ChangedConverter"/>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="New" Executed="command_new"/>
+        <CommandBinding Command="Open" Executed="command_open"/>
+        <CommandBinding Command="SaveAs" Executed="command_save"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="N" Modifiers="Control" Command="New"/>
+        <KeyBinding Key="O" Modifiers="Control" Command="Open"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="SaveAs"/>
+    </Window.InputBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="144*" />
+            <ColumnDefinition Width="323*" />
+            <ColumnDefinition Width="333*" />
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <MenuItem Header="File" FontSize="16">
+                <MenuItem Header="New" Command="New" InputGestureText="Ctrl+N"></MenuItem>
+                <MenuItem Header="Open" Command="Open" InputGestureText="Ctrl+O"></MenuItem>
+                <MenuItem Header="Save" Command="SaveAs" InputGestureText="Ctrl+S"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Edit" FontSize="16">
+                <MenuItem Header="Add VMTime" Click="MenuItem_Click"/>
+                <MenuItem Header="Add VMAccuracy" Click="MenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Grid.Row="2" Margin="0,3,296,0" Grid.RowSpan="2" Grid.ColumnSpan="2" Height="300" VerticalAlignment="Top" HorizontalAlignment="Right" Width="171">
+            <TextBlock HorizontalAlignment="Center" Width="102" Margin="0 20 0 5"><Run Language="ru-ru" Text="Ч"/><Run Text="исло узлов сетки"/></TextBlock>
+            <TextBox x:Name="InputBox1" HorizontalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" Width="106" Height="18" DataContext="{Binding curr_grid, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}, Mode=TwoWay}">
+                <TextBox.Text>
+                    <Binding Path="len" Converter="{StaticResource LenghtConverter}"/>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBlock HorizontalAlignment="Center" Width="122" Margin="0 30 0 5" Height="71"><Run Text="Введите начало,"/><LineBreak/><Run/><Run Text=" "/><Run Text="потом"/><Run Text=" "/><Run Text="разделитель '-'"/><LineBreak/><Run/><Run Text=" "/><Run Text="и"/><Run Text=" "/><Run Text="конец отрезка"/><Run Text="."/></TextBlock>
+            <TextBox x:Name="InputBox" TextWrapping="Wrap" Width="144" Height="18" DataContext="{Binding curr_grid, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                <MultiBinding Converter="{StaticResource GridConverter}">
+                    <Binding Path="left"/>
+                    <Binding Path="right"/>
+                </MultiBinding>
+            </TextBox>
+            <TextBlock HorizontalAlignment="Center" Width="132" Margin="0 30 0 5">
+                Выберите функцию
+            </TextBlock>
+            <ComboBox Width="134" IsSynchronizedWithCurrentItem="True" SelectedIndex="{Binding curr_grid.curr_function, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}">
+                <ComboBoxItem Content="vmdLn"/>
+                <ComboBoxItem Content="vmsLn"/>
+                <ComboBoxItem Content="vmdLGamma"/>
+                <ComboBoxItem Content="vmsLGamma"/>
+            </ComboBox>
+        </StackPanel>
+        <ListBox x:Name="listBoxL" Grid.Row="2" Margin="0,20,324,0" Width="300" HorizontalAlignment="Right" ItemsSource="{Binding view.benchmark.coll1, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.ColumnSpan="2" Height="280" VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock>------------</TextBlock>
+                        <TextBlock Text="{Binding grid.curr_function, StringFormat='Текущая функция: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.len, StringFormat='Количество узлов: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.left,Converter={StaticResource FloatConverter}, StringFormat='Начало отрезка: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.right, Converter={StaticResource FloatConverter}, StringFormat='Конец отрезка: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.step, Converter={StaticResource FloatConverter}, StringFormat='Шаг: \{0\}'}"/>
+                        <TextBlock Text="{Binding time_vml_ha, Converter={StaticResource DoubleConverter}, StringFormat='Время в HA: \{0\}'}"/>
+                        <TextBlock Text="{Binding time_vml_ep, Converter={StaticResource DoubleConverter}, StringFormat='Время в EP: \{0\}'}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <ListBox x:Name="listBoxR" Grid.Row="2" Grid.Column="2" Margin="0,20,2,0" Width="300" HorizontalAlignment="Right" ItemsSource="{Binding view.benchmark.coll2, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" Height="280" VerticalAlignment="Top">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock>------------</TextBlock>
+                        <TextBlock Text="{Binding grid.curr_function, StringFormat='Текущая функция: {0}'}"/>
+                        <TextBlock Text="{Binding grid.len, StringFormat='Количество узлов: {0}'}"/>
+                        <TextBlock Text="{Binding grid.left, Converter={StaticResource FloatConverter}, StringFormat='Начало отрезка: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.right, Converter={StaticResource FloatConverter}, StringFormat='Конец отрезка: \{0\}'}"/>
+                        <TextBlock Text="{Binding grid.step, Converter={StaticResource FloatConverter}, StringFormat='Шаг: \{0\}'}"/>
+                        <TextBlock Text="{Binding max_dif_abs, Converter={StaticResource DoubleConverter}, StringFormat='Max diff abs: \{0\}'}"/>
+                        <TextBlock Text="{Binding max_dif_arg, Converter={StaticResource DoubleConverter}, StringFormat='Max diff arg: \{0\}'}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label x:Name="label1" Content="VMTime:" Grid.Column="1" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="112" Target="{Binding ElementName=listBoxL, Mode=OneWay}" Margin="0,21,179,0" Grid.RowSpan="2" FontSize="14"/>
+        <Label x:Name="label2" Content="VMAccuracy:" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="132" Target="{Binding ElementName=listBoxR, Mode=OneWay}" Margin="0,21,170,0" Grid.RowSpan="2" FontSize="14"/>
+        <TextBlock x:Name="AdditionalInfoL" HorizontalAlignment="Right" Grid.Row="3" Text="{Binding SelectedItem, Converter={StaticResource VMTimeConverter}, ElementName=listBoxL}" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0,0" Height="34" Width="266" TextAlignment="Center" Grid.Column="1" Margin="0,0,8,0"/>
+        <TextBlock x:Name="AdditionalInfoR" Grid.Column="2" HorizontalAlignment="Right" Grid.Row="3" Text="{Binding SelectedItem, Converter={StaticResource VMAccuracyConverter}, ElementName=listBoxR}" TextWrapping="Wrap" VerticalAlignment="Center" RenderTransformOrigin="0,0" Height="34" Width="264" TextAlignment="Center" Margin="0,0,20,0"/>
+        <TextBlock x:Name="Min_WML_HA_CoefOut" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="4" Text="{Binding view.benchmark.Min_HA_EP_Coeff, Converter={StaticResource MinCoefConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" TextWrapping="Wrap" VerticalAlignment="Center" Height="34" Width="264" TextAlignment="Center"/>
+        <TextBlock x:Name="Max_WML_HA_CoefOut" Grid.Column="2" HorizontalAlignment="Center" Grid.Row="4" Text="{Binding view.benchmark.Max_HA_EP_Coeff, Converter={StaticResource MaxCoefConverter}, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" TextWrapping="Wrap" VerticalAlignment="Center" Height="34" Width="264" TextAlignment="Center"/>
+        <TextBlock x:Name="SaveStatus" HorizontalAlignment="Center" Grid.Row="4" Text="{Binding view.CheckChanged, Converter={StaticResource ChangedConverter}, Mode=TwoWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, UpdateSourceTrigger=PropertyChanged}" Foreground="Red" TextWrapping="Wrap" VerticalAlignment="Center" Height="34" Width="270" TextAlignment="Center"/>
+    </Grid>
+</Window>
